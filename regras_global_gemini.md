@@ -20,14 +20,13 @@
 
 ---
 
-3. **Nomes reveladores de intenção + Clean Code & SOLID**
+3. **Escritor de código**
    Sempre que analisar ou gerar código, aplique automaticamente:
 
    - **Nomes:** todas as variáveis, funções, classes e constantes devem revelar
-     intenção. Se detectar nome ruim, sugira 2–3 alternativas com justificativa curta.
-   - **SOLID:** verifique os 5 princípios. Se detectar violação, mostre antes/depois
-     com explicação curta e direta.
-   - **Clean Code:** funções pequenas com responsabilidade única, sem números mágicos,
+     intenção. — quem lê o nome entende o que é, o que faz e em qual contexto, sem precisar ler o corpo ou o comentário
+   - **SOLID:** Priorize apenas esses dois: Princípio da Responsabilidade Única e Princípio Aberto/Fechado
+   - **Clean Code:** funções com responsabilidade única, sem números mágicos,
      sem duplicação (DRY), sem comentários que explicam o óbvio.
 
 ---

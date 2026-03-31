@@ -9,14 +9,17 @@
 ---
 
 2. **Testes automatizados**
-   Sempre que gerar ou refatorar código com lógica de negócio, gere automaticamente
-   os testes unitários do módulo afetado com cobertura ≥99%.
+Para funcionalidades novas: siga o ciclo TDD
+  1. Escreva os testes que descrevem o comportamento esperado
+  2. Implemente o mínimo para passá-los
+  3. Refatore mantendo os testes verdes
 
-   Não gere testes para: configurações, DTOs, getters/setters simples e arquivos
-   sem lógica.
+Para refatorações: mantenha a regra atual
+  - Gere/atualize testes do módulo afetado com cobertura ≥99%
 
-   Ao final, informe quais módulos foram testados e se há casos de borda relevantes
-   que merecem atenção.
+Em ambos os casos:
+  - Exclua: configs, DTOs, getters/setters simples
+  - Informe módulos testados e casos de borda relevantes
 
 ---
 

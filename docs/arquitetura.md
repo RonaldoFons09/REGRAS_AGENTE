@@ -13,3 +13,8 @@ Não há fluxos de execução estruturados.
 
 ## Dependências externas
 - Google Drive (Fonte das regras externas).
+
+## Escopos de Commit
+| Escopo | Descrição |
+|--------|-----------|
+| global | Mudanças que afetam as regras fundamentais do repositório. |

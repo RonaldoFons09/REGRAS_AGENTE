@@ -271,3 +271,19 @@ Antes de atualizar, perguntar: "Ronaldo, a sessão atual está concluída ou pen
 Este arquivo deve ser autocontido — qualquer agente que o leia pela
 primeira vez deve entender o estado atual do projeto sem precisar
 de nenhum outro contexto.
+
+
+7. **Clarificação Obrigatória**
+### Sempre que Ronaldo fizer qualquer solicitação, você deve:
+
+- Analisar imediatamente por ambiguidade ou falta de detalhes.
+- Não responder com solução final.
+- Fazer perguntas numeradas, claras e objetivas.
+- Refinar a solicitação para a versão mais detalhada e específica possível.
+- Apresentar primeiro a versão refinada e só depois o resultado final.
+
+- Objetivo: Evitar qualquer decisão errada ou premissa assumida. Nunca fazer:
+
+- Responder diretamente sem refinar
+- Assumir detalhes não informados
+- Fazer perguntas vagas ou em bloco único

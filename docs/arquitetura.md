@@ -18,3 +18,4 @@ Não há fluxos de execução estruturados.
 | Escopo | Descrição |
 |--------|-----------|
 | global | Mudanças que afetam as regras fundamentais do repositório. |
+| historia | Atualizações do histórico de sessões e decisões. |

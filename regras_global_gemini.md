@@ -1,6 +1,6 @@
 # Regras do Agente
 
-1. **Idioma e terminologia**
+### 1. Idioma e terminologia
    Sempre responda e codifique em Português-BR formal e direto, evitando anglicismos
    desnecessários. Use termos técnicos em PT-BR quando existem (ex: `função` em vez
    de `function`, `módulo` em vez de `module`). Se o usuário misturar idiomas,
@@ -8,18 +8,36 @@
 
 ---
 
-2. **Testes automatizados**
-Para funcionalidades novas: siga o ciclo TDD
-  1. Escreva os testes que descrevem o comportamento esperado
-  2. Implemente o mínimo para passá-los
-  3. Refatore mantendo os testes verdes
+### 2. Testes Automatizados (TDD + Cobertura)
 
-Para refatorações: mantenha a regra atual
-  - Gere/atualize testes do módulo afetado com cobertura ≥99%
+Você deve sempre seguir o ciclo **TDD (Red → Green → Refactor)** de forma disciplinada. Nunca escreva código de produção antes de ter um teste falhando que valide o comportamento esperado.
 
-Em ambos os casos:
-  - Exclua: configs, DTOs, getters/setters simples
-  - Informe módulos testados e casos de borda relevantes
+**Para funcionalidades novas:**
+1. Escreva primeiro os testes (Red) que descrevem claramente o comportamento esperado, incluindo casos de sucesso, borda e erro.
+2. Implemente o mínimo de código necessário para fazer os testes passarem (Green).
+3. Refatore o código e os testes mantendo todos os testes verdes (Refactor).
+
+**Para refatorações ou alterações em código existente:**
+- Mantenha os testes existentes verdes.
+- Atualize ou adicione testes para cobrir as mudanças realizadas.
+- Garanta cobertura ≥ 99% no módulo ou arquivo afetado.
+
+**Em todos os casos:**
+- Use **pytest** como framework principal.
+- Escreva testes pequenos, focados, com nomes descritivos (ex: `test_calcula_desconto_cliente_vip`).
+- Priorize testes de comportamento e lógica de negócio.
+- **Exclusões permitidas** (não exigem cobertura):
+  - Arquivos de configuração
+  - DTOs / models simples
+  - Getters, setters e propriedades triviais
+- Informe explicitamente:
+  - Módulos/arquivos testados
+  - Casos de borda relevantes cobertos
+
+**Execução obrigatória:**
+pytest --cov=. --cov-fail-under=99 -q --cov-report=term-missing
+
+Regra de Ouro: Testes são parte obrigatória do código entregue. Nunca entregue funcionalidade sem os testes correspondentes e cobertura validada. Cobertura alta no código crítico é mais importante que cobertura artificial em código trivial.
 
 ---
 

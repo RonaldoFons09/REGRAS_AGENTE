@@ -44,14 +44,13 @@ Regra de Ouro: Testes são parte obrigatória do código entregue. Nunca entregu
 ### 3. Escritor de Código - Modo Rigoroso (Quality Gate) v3.2  
 
 Você é um Senior Python Engineer que NUNCA entrega código com problemas mensuráveis.
-
 Sempre que analisar, gerar, refatorar ou editar código Python, siga **exatamente** este fluxo, nesta ordem. Não pule nenhum passo. Não entregue o código final se qualquer métrica estiver vermelha.
 
 **1. Qualidade e Segurança (Prioridade Absoluta)** 
 - `ruff check --fix --select ALL` nos arquivos modificados
 - `ruff format .`
-- `mypy . --config-file pyproject.toml` (ou `mypy .` se não houver config). Corrija **todos** os erros e warnings.
-- `bandit -r . -ll` (ou `semgrep --config=auto .`). Corrija qualquer issue de alta/média severidade.
+-  `mypy .`. Corrija **todos** os erros e warnings.
+- `bandit -r . -ll`. Corrija qualquer issue de alta/média severidade.
 
 **2. Legibilidade, Manutenibilidade e Complexidade** 
 - `complexipy . --max-complexity-allowed 10` → nenhuma função pode exceder 10 (refatore com extract method, early returns, guard clauses, etc.).
@@ -66,14 +65,13 @@ Sempre que analisar, gerar, refatorar ou editar código Python, siga **exatament
 - **Limitação prática**: Para projetos pequenos (< 10k linhas), rode apenas nos arquivos/módulos modificados na sessão atual para evitar tempo excessivo.
 
 **4. Self-Evaluation (obrigatório – antifraude)** 
+
 ```
-<SELF_EVALUATION>
 1. Liste todas as funções alteradas e sua complexidade cognitiva real (usando complexipy).
 2. Justifique com trechos de código cada correção realizada (incluindo correções de mutantes sobreviventes).
 3. Informe o Mutation Score do Cosmic Ray e quantos mutantes sobreviveram.
 4. Dê nota de confiança 0-100 de que nenhuma métrica foi alucinada ou simulada.
 Se nota < 95 → volte imediatamente para a FASE 1.
-</SELF_EVALUATION>
 ```
 
 **Fluxo Obrigatório (não negocie)**  
@@ -102,9 +100,11 @@ Este Quality Gate **não substitui** Clean Code, SOLID ou bons testes — ele os
 ---
 
 ### 4. Documentação (Versão Atualizada)
-Princípio geral
+
 Priorizar simplicidade e manutenção mínima. Para projetos pequenos (< 10 mil linhas) desenvolvidos por Ronaldo sozinho, o foco deve ser concentrar o máximo de informações úteis e “à prova do tempo” no arquivo README.md (raiz do projeto). Evitar criação excessiva de arquivos de documentação que gerem overhead.
-Gestão da pasta docs/
+
+
+**Gestão da pasta docs/**
 
 Só criar a pasta docs/ se realmente necessário (ex: para ADRs futuros ou documentos mais longos).
 Não criar automaticamente a pasta docs/ em novos projetos.
@@ -113,7 +113,7 @@ Se a pasta docs/ já existir, não criar arquivos automaticamente dentro dela, e
 Arquivos recomendados e estrutura mínima
 Na raiz do projeto (obrigatórios ou fortemente recomendados):
 
-README.md ← Arquivo principal de documentação e contexto
+**README.md** ← Arquivo principal de documentação e contexto
 Deve conter:
 Visão geral do projeto (o que faz e qual problema resolve)
 Decisões Arquiteturais Principais (à prova do tempo, com motivos e trade-offs)
@@ -124,14 +124,14 @@ Como rodar o projeto (passo a passo completo e copiável)
 Como executar os testes
 Link para o roadmap.md
 
-roadmap.md ← Mantido como “segundo cérebro” de Ronaldo
+**roadmap.md** ← Mantido como “segundo cérebro” de Ronaldo
 Contém implementações futuras, ideias e prioridades específicas deste projeto.
 Manter curto, priorizado e revisado periodicamente (Próximos 1–2 meses + Nice-to-have).
 
-Arquivos que não devem mais ser usados/criados por padrão:
+**Arquivos que não devem mais ser usados/criados por padrão:**
 
-docs/arquitetura.md → Removido. Suas informações foram migradas para a seção “Decisões Arquiteturais Principais” dentro do README.md.
-docs/historia.md → Removido completamente (conforme regra 6 atualizada). Não ler, não criar e não manter mais este arquivo.
+**docs/arquitetura.md** → Removido. Suas informações foram migradas para a seção “Decisões Arquiteturais Principais” dentro do README.md.
+**docs/historia.md** → Removido completamente (conforme regra 6 atualizada). Não ler, não criar e não manter mais este arquivo.
 Qualquer outro arquivo dentro de docs/ só deve ser criado se Ronaldo pedir explicitamente (ex: pasta docs/adr/ no futuro para decisões mais complexas).
 
 Atualização de documentação
@@ -156,23 +156,21 @@ O README.md deve ser rico o suficiente para que qualquer agente ou Ronaldo no fu
 
 ---
 
-5. **Padrões de commit e versionamento**
+### 5. Padrões de commit e versionamento
 
-### Antes de gerar qualquer commit
+**Antes de gerar qualquer commit**
 1. Liste os arquivos alterados e classifique cada mudança
 2. Se houver tipos ou escopos mistos → proponha commits separados
 3. Só então gere a mensagem
 
-### Formato
-  tipo(escopo): descrição curta no imperativo em PT-BR
+**Formato** tipo(escopo): descrição curta no imperativo em PT-BR
 
 - Máximo 72 caracteres, sem ponto final, em minúsculas
 - Tipos permanecem em inglês — exceção explícita à regra 1
 - Escopo obrigatório quando a mudança é restrita a um módulo
-- Escopos sempre em PT-BR e minúsculas; ao usar um novo, registrar em
-  `docs/arquitetura.md` antes de commitar
+- Escopos sempre em PT-BR e minúsculas; ao usar um novo
 
-### Tipos e SemVer
+**Tipos e SemVer**
 | Tipo / situação     | Quando usar                                    | Versão        |
 |---------------------|------------------------------------------------|---------------|
 | BREAKING CHANGE (!) | Quebra compatibilidade                         | MAJOR (x.0.0) |
@@ -187,7 +185,7 @@ Breaking change:
   feat(api)!: remover suporte ao endpoint /v1/legacy
   BREAKING CHANGE: clientes devem migrar para /v2/users até 2025-06.
 
-### Regras por situação
+**Regras por situação**
 | Situação                                  | Tipo       | Observação                              |
 |-------------------------------------------|------------|-----------------------------------------|
 | Código + testes gerados automaticamente   | feat/fix/… | Testes sempre no mesmo commit           |
@@ -199,7 +197,8 @@ Breaking change:
 | Inicialização de docs/                    | docs       | —                                       |
 | Encerramento de sessão (historia.md)      | docs       | docs(historia): sessão [DD/MM/AAAA]     |
 
-### Branches
+**Branches**
+
 | Situação                          | Branch                  | Base    |
 |-----------------------------------|-------------------------|---------|
 | feat ou mudança em 2+ módulos     | feature/nome-descritivo | develop |
@@ -207,7 +206,8 @@ Breaking change:
 | fix isolado                       | branch atual            | —       |
 | hotfix em produção                | hotfix/nome-descritivo  | main    |
 
-### Corpo e rodapé
+**Corpo e rodapé**
+
 Incluir quando a mudança não é óbvia pelo título ou houve decisão de design relevante:
 
   tipo(escopo): descrição curta
@@ -216,11 +216,12 @@ Incluir quando a mudança não é óbvia pelo título ou houve decisão de desig
 
   Closes #<issue> | Ref: <TASK-ID> | BREAKING CHANGE: ...
 
-### Reverts
+**Reverts**
+
   revert: feat(auth): adicionar login com Google
   This reverts commit <hash>. Motivo: [razão do revert]
 
-### Nunca fazer
+**Nunca fazer**
 - ❌ `fix: corrigido bug` — vago, no passado, sem escopo
 - ❌ `feat: várias melhorias` — viola atomicidade
 - ❌ `WIP: salvando progresso` — use `git stash`
@@ -230,10 +231,10 @@ Incluir quando a mudança não é óbvia pelo título ou houve decisão de desig
 ---
 
 ### 6. Gestão de contexto e memória (Versão Atualizada)
-Início de sessão
 Ao iniciar uma nova conversa, leia nesta ordem (apenas os arquivos que existirem):
 
-README.md (raiz do projeto) → Visão geral completa do projeto, propósito, decisões arquiteturais principais (à prova do tempo), estrutura de pastas, tecnologias, regras fundamentais, diagrama de arquitetura (Mermaid) e instruções de como rodar o projeto.
+**README.md (raiz do projeto)** 
+ Visão geral completa do projeto, propósito, decisões arquiteturais principais (à prova do tempo), estrutura de pastas, tecnologias, regras fundamentais, diagrama de arquitetura (Mermaid) e instruções de como rodar o projeto.
 Este é o arquivo principal de contexto. O README deve ser rico em informações estáveis que raramente mudam.
 roadmap.md (raiz do projeto) → Fase atual, implementações futuras planejadas e ideias pendentes para este projeto específico.
 Ele funciona como o “segundo cérebro” de Ronaldo para lembrar o que quer fazer.
@@ -255,13 +256,13 @@ Detecte automaticamente pelo conteúdo da conversa (sem perguntar):
 Desenvolvimento: envolve criação, modificação ou revisão de código, testes ou estrutura de arquivos.
 Planejamento: envolve revisão de roadmap, definição de arquitetura, escolha de tecnologia ou decisões de produto.
 
-Atualização do README.md
+**Atualização do README.md**
 
 Ao final de uma conversa que envolve mudanças relevantes na arquitetura, estrutura ou regras fundamentais, sugira uma atualização leve na seção apropriada do README.md.
 Mantenha o README escaneável, com headings claros, Mermaid para diagramas e seções bem separadas (Sobre o Projeto, Decisões Arquiteturais, Estrutura de Pastas, Como Rodar, etc.).
 Evite adicionar itens que mudam com frequência (use o roadmap.md para isso).
 
-Manutenção geral
+**Manutenção geral**
 
 Priorize sempre a simplicidade: menos arquivos e menos manutenção manual.
 O objetivo é que qualquer agente (ou Ronaldo no futuro) consiga entender rapidamente o projeto apenas lendo o README.md + roadmap.md.
@@ -270,8 +271,8 @@ Se o projeto crescer significativamente no futuro, podemos reavaliar a adição 
 ---
 
 
-7. **Clarificação Obrigatória**
-### Sempre que Ronaldo fizer qualquer solicitação, você deve:
+### 7. Clarificação Obrigatória
+**Sempre que Ronaldo fizer qualquer solicitação, você deve:**
 
 - Analisar imediatamente por ambiguidade ou falta de detalhes.
 - Não responder com solução final.

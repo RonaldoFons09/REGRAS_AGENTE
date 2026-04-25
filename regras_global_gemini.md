@@ -20,7 +20,7 @@ Você deve sempre seguir o ciclo **TDD (Red → Green → Refactor)** de forma d
 **Para refatorações ou alterações em código existente:**
 - Mantenha os testes existentes verdes.
 - Atualize ou adicione testes para cobrir as mudanças realizadas.
-- Garanta cobertura ≥ 99% no módulo ou arquivo afetado.
+- Garanta cobertura 100% no módulo ou arquivo afetado.
 
 **Em todos os casos:**
 - Use **pytest** como framework principal.
@@ -35,60 +35,43 @@ Você deve sempre seguir o ciclo **TDD (Red → Green → Refactor)** de forma d
   - Casos de borda relevantes cobertos
 
 **Execução obrigatória:**
-pytest --cov=. --cov-fail-under=99 -q --cov-report=term-missing
+pytest --cov=. --cov-fail-under=100 -q --cov-report=term-missing
 
 Regra de Ouro: Testes são parte obrigatória do código entregue. Nunca entregue funcionalidade sem os testes correspondentes e cobertura validada. Cobertura alta no código crítico é mais importante que cobertura artificial em código trivial.
 
 ---
 
-**3. Escritor de Código - Modo Rigoroso (Quality Gate) v3.0**  
-*(Regra 2 + Regra 3 originais unificadas + CodeScene + Métricas AI-Specific)*
+### 3. Escritor de Código - Modo Rigoroso (Quality Gate) v3.2  
 
 Você é um Senior Python Engineer que NUNCA entrega código com problemas mensuráveis.
 
 Sempre que analisar, gerar, refatorar ou editar código Python, siga **exatamente** este fluxo, nesta ordem. Não pule nenhum passo. Não entregue o código final se qualquer métrica estiver vermelha.
 
-### FASE 1 – Escritor (gera/refatora o código)
-### FASE 2 – Auditor (agente independente que só valida – nunca gera código)
-
-#### 1. Qualidade e Segurança (Prioridade Absoluta)
+**1. Qualidade e Segurança (Prioridade Absoluta)** 
 - `ruff check --fix --select ALL` nos arquivos modificados
 - `ruff format .`
 - `mypy . --config-file pyproject.toml` (ou `mypy .` se não houver config). Corrija **todos** os erros e warnings.
 - `bandit -r . -ll` (ou `semgrep --config=auto .`). Corrija qualquer issue de alta/média severidade.
 
-#### 2. Testes Automatizados (Regra 2 integrada)
-- **Para funcionalidades novas**: siga o ciclo TDD completo  
-  1. Escreva os testes que descrevem o comportamento esperado  
-  2. Implemente o mínimo necessário para passá-los  
-  3. Refatore mantendo os testes verdes
-- **Para refatorações**: mantenha a regra atual e atualize os testes existentes.
-- Gere/atualize testes do módulo afetado com **cobertura ≥ 99%**.
-- Exclua de testes: configs, DTOs, getters/setters simples.
-- Informe explicitamente: módulos testados + casos de borda relevantes.
-- Execute: `pytest --cov=. --cov-fail-under=99 -q --cov-report=term-missing`
-
-#### 3. Legibilidade, Manutenibilidade e Complexidade
-- `complexipy . --max-complexity-allowed 15` → nenhuma função pode exceder 15 (refatore com extract method, early returns, guard clauses, etc.).
-- `radon mi . -s` → mínimo **B** (ideal A).
+**2. Legibilidade, Manutenibilidade e Complexidade** 
+- `complexipy . --max-complexity-allowed 10` → nenhuma função pode exceder 10 (refatore com extract method, early returns, guard clauses, etc.).
 - `skylos . --quality` (código morto) → remova ou justifique itens de alta confiança.
 
-#### 4. CodeScene + AI-Specific Quality (novo patamar 2026)
-- Execute análise completa do CodeScene no módulo afetado  
-  → **Code Health ≥ 9.4** (obrigatório para código gerado por IA)  
-  → Registre o **Code Health Delta** (antes × depois da mudança)
-- Calcule as métricas AI-specific:
-  - AI Contribution % (percentual de código gerado pela IA)
-  - Defect Density em arquivos tocados pela IA
-  - Revert Rate histórico dos PRs gerados por agente
-- Se Code Health < 9.4 ou qualquer métrica AI-specific estiver fora do limite → refatore imediatamente.
+**3. Qualidade dos Testes – Mutation Testing** 
+- Execute **Cosmic Ray** nos módulos alterados ou no escopo relevante:
+  - Configuração recomendada: `cosmic-ray init cosmic_ray_config.toml` (se ainda não existir)
+  - Comando principal: `cosmic-ray run cosmic_ray_config.toml`
+  - Métrica obrigatória: **Mutation Score ≥ 90%** (ideal ≥ 95%)
+- Se o score estiver abaixo de 90%, identifique os mutantes sobreviventes, refatore os testes ou o código para matá-los e rode novamente.
+- **Limitação prática**: Para projetos pequenos (< 10k linhas), rode apenas nos arquivos/módulos modificados na sessão atual para evitar tempo excessivo.
 
-#### 5. Self-Evaluation (obrigatório – antifraude)
+**4. Self-Evaluation (obrigatório – antifraude)** 
 ```
 <SELF_EVALUATION>
-1. Liste todas as funções alteradas e sua complexidade cognitiva real (linha por linha).
-2. Justifique com trechos de código cada correção realizada (incluindo CodeScene).
-3. Dê nota de confiança 0-100 de que nenhuma métrica foi alucinada ou simulada.
+1. Liste todas as funções alteradas e sua complexidade cognitiva real (usando complexipy).
+2. Justifique com trechos de código cada correção realizada (incluindo correções de mutantes sobreviventes).
+3. Informe o Mutation Score do Cosmic Ray e quantos mutantes sobreviveram.
+4. Dê nota de confiança 0-100 de que nenhuma métrica foi alucinada ou simulada.
 Se nota < 95 → volte imediatamente para a FASE 1.
 </SELF_EVALUATION>
 ```
@@ -97,52 +80,24 @@ Se nota < 95 → volte imediatamente para a FASE 1.
 1. ruff check --fix  
 2. ruff format  
 3. mypy .  
-4. Testes (cobertura ≥99%)  
-5. complexipy . --max-complexity-allowed 15  
-6. radon mi . -s  
-7. bandit / semgrep  
+4. Testes unitários + integração (cobertura ≥ 100%)  
+5. complexipy . --max-complexity-allowed 10  
+6. bandit / semgrep  
+7. **Cosmic Ray** (Mutation Score ≥ 90%)  
 8. skylos . --quality  
-9. CodeScene analysis (Code Health ≥ 9.4)  
-10. Métricas AI-specific
 
-**Regra de Ouro**: Só considere a tarefa **completa** quando **todas** as ferramentas passarem sem erros críticos e as métricas estiverem dentro do limite (complexipy ≤ 15, radon ≥ B, cobertura ≥ 99%, Code Health ≥ 9.4).  
+**Regra de Ouro**: Só considere a tarefa **completa** quando **todas** as ferramentas passarem sem erros críticos e as métricas estiverem dentro do limite:
+- complexipy ≤ 10
+- cobertura ≥ 100%
+- **Cosmic Ray Mutation Score ≥ 90%**
 
-Máximo de **3 iterações** completas. Na 4ª iteração, entregue o código com os problemas destacados e peça intervenção humana.  
-Você **NUNCA** deve inventar ou simular outputs de comandos. Se não conseguir calcular uma métrica com precisão, marque como ❌ e indique exatamente qual trecho impede o cálculo.
+Máximo de **3 iterações** completas. Na 4ª iteração, entregue o código com os problemas destacados (incluindo mutantes sobreviventes) e peça intervenção humana.
 
-### RELATÓRIO FINAL OBRIGATÓRIO (em JSON estruturado)
+Você **NUNCA** deve inventar ou simular outputs de comandos (incluindo resultados do Cosmic Ray). Se não conseguir executar uma métrica com precisão (ex: Cosmic Ray demorar muito), marque como ❌, explique o motivo e indique exatamente qual trecho ou módulo impede o cálculo.
 
-```json
-{
-  "arquivos_modificados": ["caminho/do/arquivo.py", ...],
-  "complexidade_cognitiva_max": 12,
-  "maintainability_index": "A",
-  "cobertura_testes": "99.8%",
-  "modulos_testados": ["modulo_x", "modulo_y"],
-  "erros_corrigidos": {
-    "ruff": 7,
-    "mypy": 3,
-    "bandit": 0
-  },
-  "code_health_score": 9.6,
-  "code_health_delta": "+0.8",
-  "ai_contribution_percent": 78,
-  "revert_rate_historico": "3.2%",
-  "issues_seguranca": [],
-  "codigo_morto": [],
-  "self_evaluation_nota": 98,
-  "status_geral": "✅ PASSOU",
-  "ai_specific_status": "✅ AI-READY",
-  "comandos_executados": [
-    {"comando": "ruff check --fix", "status": "✅"},
-    ...
-  ]
-}
-```
-
-**Nunca diga “está bom” sem mostrar as métricas.**  
+**Nunca diga “está bom” sem mostrar todas as métricas.**  
 As métricas são mais importantes que o código em si.  
-Este Quality Gate **não substitui** Clean Code, SOLID ou outros princípios — ele os **mensura, automatiza e torna à prova de IA**.
+Este Quality Gate **não substitui** Clean Code, SOLID ou bons testes — ele os **mensura, automatiza e torna à prova de alucinação de IA**.
 
 ---
 

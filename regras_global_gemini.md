@@ -146,77 +146,58 @@ Este Quality Gate **não substitui** Clean Code, SOLID ou outros princípios —
 
 ---
 
-4. **Documentação**
+### 4. Documentação (Versão Atualizada)
+Princípio geral
+Priorizar simplicidade e manutenção mínima. Para projetos pequenos (< 10 mil linhas) desenvolvidos por Ronaldo sozinho, o foco deve ser concentrar o máximo de informações úteis e “à prova do tempo” no arquivo README.md (raiz do projeto). Evitar criação excessiva de arquivos de documentação que gerem overhead.
+Gestão da pasta docs/
 
-### Quando criar a pasta docs/
-Criar automaticamente quando a pasta do projeto estiver vazia.
-Se docs/ já existir mas estiver incompleta, criar apenas os arquivos
-ausentes — nunca sobrescrever arquivos existentes.
+Só criar a pasta docs/ se realmente necessário (ex: para ADRs futuros ou documentos mais longos).
+Não criar automaticamente a pasta docs/ em novos projetos.
+Se a pasta docs/ já existir, não criar arquivos automaticamente dentro dela, exceto se Ronaldo solicitar explicitamente.
 
-### Arquivos obrigatórios e estrutura mínima
+Arquivos recomendados e estrutura mínima
+Na raiz do projeto (obrigatórios ou fortemente recomendados):
 
-README.md
+README.md ← Arquivo principal de documentação e contexto
+Deve conter:
+Visão geral do projeto (o que faz e qual problema resolve)
+Decisões Arquiteturais Principais (à prova do tempo, com motivos e trade-offs)
+Diagrama de arquitetura (usando Mermaid)
+Regras fundamentais do projeto
+Estrutura de pastas
+Como rodar o projeto (passo a passo completo e copiável)
+Como executar os testes
+Link para o roadmap.md
 
-## Visão geral
-[O que o projeto faz e qual problema resolve]
+roadmap.md ← Mantido como “segundo cérebro” de Ronaldo
+Contém implementações futuras, ideias e prioridades específicas deste projeto.
+Manter curto, priorizado e revisado periodicamente (Próximos 1–2 meses + Nice-to-have).
 
-## Como rodar
-[Passo a passo mínimo para rodar localmente]
+Arquivos que não devem mais ser usados/criados por padrão:
 
-## Como contribuir
-[Fluxo de branches, commits e PRs]
+docs/arquitetura.md → Removido. Suas informações foram migradas para a seção “Decisões Arquiteturais Principais” dentro do README.md.
+docs/historia.md → Removido completamente (conforme regra 6 atualizada). Não ler, não criar e não manter mais este arquivo.
+Qualquer outro arquivo dentro de docs/ só deve ser criado se Ronaldo pedir explicitamente (ex: pasta docs/adr/ no futuro para decisões mais complexas).
 
-## Dependências externas
-[Serviços, APIs ou bibliotecas críticas]
+Atualização de documentação
 
----
+O agente deve sugerir atualizações leves no README.md quando:
+Uma decisão arquitetural significativa for tomada (ex: escolha de tecnologia, padrão de arquitetura, trade-off importante).
+A estrutura de pastas mudar de forma relevante.
+Regras fundamentais do projeto forem definidas ou alteradas.
 
-arquitetura.md
-# Arquitetura
+Ao sugerir atualização, mostrar apenas o bloco ## afetado (antes/depois) e aguardar confirmação de Ronaldo antes de propor o texto final.
+Nunca reescrever o arquivo inteiro. Modificar apenas a seção necessária.
 
-## Camadas
-[Descrição de cada camada e sua responsabilidade]
+Gatilhos de atualização
 
-## Decisões técnicas
-| Decisão | Motivo | Data |
-|---------|--------|------|
+Decisão arquitetural importante → Sugerir atualização na seção Decisões Arquiteturais Principais do README.md
+Mudança relevante na estrutura de pastas → Sugerir atualização na seção Estrutura de Pastas do README.md
+Final de uma conversa de desenvolvimento → Perguntar se deseja atualizar alguma seção do README.md (apenas se houver algo relevante para documentar)
 
-## Fluxos principais
-[Descrição dos fluxos críticos da aplicação]
-
-## Dependências externas
-[Integrações e o papel de cada uma]
-
----
-
-roadmap.md
-# Roadmap
-
-## Pendente 
-- [ ] [tarefa]
-
-## Concluído
-- [x] [tarefa]
-
----
-
-historia.md
-Criado vazio. Estrutura e manutenção definidas integralmente na regra 8.
-
----
-
-### O que é uma seção para fins de atualização
-Seção é qualquer bloco iniciado por ## nos arquivos de docs/.
-Ao atualizar, modificar apenas o bloco ## afetado — nunca reescrever
-o arquivo inteiro.
-
-### Gatilhos de atualização e arquivo alvo
-| Evento                              | Arquivo a atualizar                         |
-|-------------------------------------|---------------------------------------------|
-| Tarefa concluída e confirmada       | roadmap.md → Concluídora Concluído |
-| Decisão arquitetural tomada         | arquitetura.md → seção Decisões técnicas |
-| Novo domínio adicionado             | arquitetura.md → seção Camadas        |
-| Nova integração externa adicionada  | arquitetura.md → seção Dependências externas |
+Regra de ouro
+Menos arquivos = menos manutenção.
+O README.md deve ser rico o suficiente para que qualquer agente ou Ronaldo no futuro entenda rapidamente o propósito, a arquitetura e como rodar o projeto, sem precisar consultar múltiplos arquivos.
 
 ---
 
@@ -293,100 +274,45 @@ Incluir quando a mudança não é óbvia pelo título ou houve decisão de desig
 
 ---
 
-6. **Gestão de contexto e memória**
+### 6. Gestão de contexto e memória (Versão Atualizada)
+Início de sessão
+Ao iniciar uma nova conversa, leia nesta ordem (apenas os arquivos que existirem):
 
-### Início de sessão
-Ao iniciar uma nova conversa, leia nesta ordem:
-1. `docs/historia.md` → sessões pendentes e decisões recentes
-2. `docs/roadmap.md` → fase ativa e próximos passos
-3. `docs/arquitetura.md` → restrições e padrões já decididos
-4. `docs/README.md` → visão geral do projeto
+README.md (raiz do projeto) → Visão geral completa do projeto, propósito, decisões arquiteturais principais (à prova do tempo), estrutura de pastas, tecnologias, regras fundamentais, diagrama de arquitetura (Mermaid) e instruções de como rodar o projeto.
+Este é o arquivo principal de contexto. O README deve ser rico em informações estáveis que raramente mudam.
+roadmap.md (raiz do projeto) → Fase atual, implementações futuras planejadas e ideias pendentes para este projeto específico.
+Ele funciona como o “segundo cérebro” de Ronaldo para lembrar o que quer fazer.
 
-Assuma o contexto sem solicitar confirmação. Se nenhum arquivo existir,
-aguarde a primeira instrução de Ronaldo sem fazer perguntas.
+Assuma o contexto imediatamente sem solicitar confirmação adicional.
+Se algum arquivo não existir, use o que estiver disponível e aguarde a primeira instrução de Ronaldo.
+Remoção de arquivos obsoletos
 
-Se `docs/historia.md` existir mas alguma entrada estiver fora do formato
-definido em **Formato do bloco `## Contexto da Sessão`**:
-1. Informar Ronaldo exatamente quais campos estão ausentes ou incorretos
-2. Propor a correção mostrando antes/depois sem alterar o conteúdo
-3. Aguardar confirmação antes de prosseguir
+Não leia nem mantenha mais o arquivo docs/historia.md (ou qualquer equivalente de histórico manual de sessões).
+Não crie blocos automáticos de “Contexto da Sessão”, snapshots por mensagem ou registros detalhados de “o que foi feito / decisões / o que não funcionou”.
+O histórico natural do Git (commits bem escritos) + testes automatizados + o README.md atualizado já fornecem contexto suficiente.
 
-Se houver múltiplas sessões pendentes, listar todas com data e título
-e perguntar: "Ronaldo, qual sessão pendente devo retomar?"
-Aguardar a resposta antes de assumir qualquer contexto.
+Decisões arquiteturais importantes
+Se durante a conversa surgir uma decisão arquitetural significativa (ex: escolha de padrão, tecnologia, trade-off importante ou mudança na estrutura), sugira atualizar a seção correspondente no README.md (na parte “Decisões Arquiteturais Principais”).
+Mantenha essa seção curta, clara e focada no “por quê”.
+Tipo de sessão
+Detecte automaticamente pelo conteúdo da conversa (sem perguntar):
 
-### Limite de sessões pendentes
-O arquivo `docs/historia.md` deve ter no máximo 3 sessões pendentes
-simultaneamente. Se uma 4ª sessão for encerrada como pendente:
-1. Alertar: "Ronaldo, o limite de 3 sessões pendentes foi atingido."
-2. Listar as sessões pendentes existentes com data e título
-3. Perguntar: "Qual delas deseja concluir ou remover antes de continuar?"
-4. Aguardar a resposta antes de registrar a sessão atual
+Desenvolvimento: envolve criação, modificação ou revisão de código, testes ou estrutura de arquivos.
+Planejamento: envolve revisão de roadmap, definição de arquitetura, escolha de tecnologia ou decisões de produto.
 
-### Tipo de sessão
-Detectar automaticamente pelo conteúdo da conversa, sem perguntar:
+Atualização do README.md
 
-- **Desenvolvimento** → conversa envolve criação, modificação ou revisão
-  de código, testes ou estrutura de arquivos
-- **Planejamento** → conversa envolve definição de arquitetura, revisão
-  de roadmap, decisões de produto ou escolha de tecnologia
+Ao final de uma conversa que envolve mudanças relevantes na arquitetura, estrutura ou regras fundamentais, sugira uma atualização leve na seção apropriada do README.md.
+Mantenha o README escaneável, com headings claros, Mermaid para diagramas e seções bem separadas (Sobre o Projeto, Decisões Arquiteturais, Estrutura de Pastas, Como Rodar, etc.).
+Evite adicionar itens que mudam com frequência (use o roadmap.md para isso).
 
-### Gatilhos para gerar o bloco ## Contexto da Sessão
-Gerar o bloco automaticamente ao atingir qualquer condição abaixo — sem aguardar sinal de encerramento de Ronaldo:
+Manutenção geral
 
-Gatilho 1 — Log de sessão por volume de mensagens A cada 2 mensagens enviadas por Ronaldo, adicionar um snapshot em historia.md dentro do bloco da sessão atual — nunca sobrescrever entradas anteriores. Mensagens do agente não são contabilizadas.
-Exemplos:
-Mensagem 2 de Ronaldo → snapshot adicionado
-Mensagem 4 de Ronaldo → snapshot adicionado
-Mensagem 6 de Ronaldo → snapshot adicionado
+Priorize sempre a simplicidade: menos arquivos e menos manutenção manual.
+O objetivo é que qualquer agente (ou Ronaldo no futuro) consiga entender rapidamente o projeto apenas lendo o README.md + roadmap.md.
+Se o projeto crescer significativamente no futuro, podemos reavaliar a adição de uma pasta docs/adr/ para decisões individuais, mas por enquanto mantenha tudo concentrado no README.md.
 
-Gatilho 2 — Mudança de tema Se Ronaldo iniciar um assunto sem relação direta com o anterior — ex.: conversa estava em autenticação, agora trata de pagamentos — Deve perguntar " Ronaldo, podemos finalizar a sessão X e qual status ? (Concluída / Pendente)
-
-Se nenhum gatilho for atingido, não gerar o bloco e não perguntar.
-
-### Formato do bloco `## Contexto da Sessão`
-Pronto para ser colado no início da próxima conversa:
-
-  ## Contexto da Sessão
-  **Nome da sessão:** [nome da sessão definida por Ronaldo]
-  **Tipo:** desenvolvimento | planejamento
-  **Status:** concluído | pendente
-
-### Objetivo da Sessão
-(Obrigatório - coloque sempre aqui o objetivo principal)
-Finalizar as refatorações de tipagem e complexidade, resolver conflitos de merge e sincronizar o repositório com o GitHub, deixando o código em um estado estável e limpo.
-
-### Snapshot [DD/MM/AA] - [HH:MM] (msg [N])
-**Todos os arquivos modificados ou criados na sessão**
-- [Arquivos modificados]
-
-**O que foi feito até o momento:**
-- [ação concluída desde o início da sessão ou desde o snapshot anterior]
-
-**Decisões tomadas desde o snapshot anterior:**
-- [decisão] → [motivo]
-- Nenhuma.
-
-**O que não funcionou desde o snapshot anterior:**
-- [o que foi tentado] → [motivo]
-- Nenhuma.
-
-**Feedback de Ronaldo:**
-- [intenção ou direcionamento dado por Ronaldo nas últimas 2 mensagens — nunca transcrever literalmente]
-
-**Próximos passos:**
-- [ ] [tarefa concreta para avançar ou concluir esta sessão — nunca tarefas de outros contextos ou do roadmap geral; se a sessão estiver concluída → "nenhum"]
-
-### Atualização de `docs/historia.md`
-Antes de atualizar, perguntar: "Ronaldo, a sessão atual está concluída ou pendente?"
-
-### Manutenção do arquivo
-- Manter apenas entradas com **Status: pendente**
-- Remover imediatamente toda entrada com **Status: concluído**
-
-Este arquivo deve ser autocontido — qualquer agente que o leia pela
-primeira vez deve entender o estado atual do projeto sem precisar
-de nenhum outro contexto.
+---
 
 
 7. **Clarificação Obrigatória**
